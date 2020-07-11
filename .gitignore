@@ -39,7 +39,7 @@ target
 .idea/uiDesigner.xml
 .idea/vcs.xml
 .idea/workspace.xml
-/loyalty-service.iml
+/tdd-words-num.iml
 /DocumentDB.Spatial.Sql.dll
 /Microsoft.Azure.Documents.ServiceInterop.dll
 .DS_Store
