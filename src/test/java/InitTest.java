@@ -7,6 +7,7 @@ import org.junit.Test;
 public class InitTest {
     @Test
     public void name() {
-        System.out.println("a");
+        String t = null;
+        System.out.println(t.length());
     }
 }
