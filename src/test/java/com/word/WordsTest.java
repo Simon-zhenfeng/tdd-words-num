@@ -7,32 +7,42 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Simon
- * @date 2020/7/12 22:07
+ * @date 2020/7/13 09:29
  */
 public class WordsTest {
     @Test
-    public void should_return_empty_given_empty_string() {
-        assertThat(Words.caculator("")).isEmpty();
+    public void should_return_empty_string_given_empty_string() {
+        Words words = new Words("");
+        assertThat(words.caculate()).isEmpty();
     }
 
     @Test
-    public void should_return_word_given_one_word() {
-        assertThat(Words.caculator("simon")).isEqualTo("simon 1");
+    public void should_return_string_given_one_word() {
+        Words words = new Words("hi");
+        assertThat(words.caculate()).isEqualTo("hi 1");
     }
 
     @Test
-    public void should_return_two_format_words_given_two_single_words() {
-        assertThat(Words.caculator("simon come")).isEqualTo("simon 1 come 1");
+    public void should_return_string_given_different_words() {
+        Words words = new Words("he is");
+        assertThat(words.caculate()).isEqualTo("he 1\r\nis 1");
     }
 
     @Test
-    public void should_return_number_muti_given_words_duplicated() {
-        assertThat(Words.caculator("simon simon")).isEqualTo("simon 2");
-        assertThat(Words.caculator("simon simon come")).isEqualTo("simon 2 come 1");
+    public void should_return_string_given_muti_words() {
+        Words words = new Words("he he is");
+        assertThat(words.caculate()).isEqualTo("he 2\r\nis 1");
     }
 
     @Test
-    public void should_return_number_muti_and_sort_given_words_duplicated() {
-        assertThat(Words.caculator("hi simon simon")).isEqualTo("simon 2 hi 1");
+    public void should_return_string_given_muti_words_by_sorted() {
+        Words words = new Words("he he is is it is");
+        assertThat(words.caculate()).isEqualTo("is 3\r\nhe 2\r\nit 1");
+    }
+
+    @Test
+    public void should_return_string_given_muti_spaces() {
+        Words words = new Words(" he he is is   it is ");
+        assertThat(words.caculate()).isEqualTo("is 3\r\nhe 2\r\nit 1");
     }
 }

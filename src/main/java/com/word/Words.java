@@ -4,44 +4,47 @@ import java.util.*;
 
 /**
  * @author Simon
- * @date 2020/7/12 22:29
+ * @date 2020/7/13 09:31
  */
 public class Words {
-    public static String caculator(String words) {
-        if (words.isEmpty()) {
+    private static final String ENTER = "\r\n";
+    private final String wordsString;
+
+    public Words(String wordsString) {
+        this.wordsString = wordsString.trim();
+    }
+
+    public String caculate() {
+        if (wordsString.isEmpty()) {
             return "";
         }
-        String[] splitWords = split(words);
-        Map<String, Integer> frequency = frequency(splitWords);
-        List<Map.Entry<String, Integer>> sorted = sort(frequency);
-        return formatPrint(sorted);
-    }
-
-    private static List<Map.Entry<String, Integer>> sort(Map<String, Integer> frequency) {
-        List<Map.Entry<String, Integer>> result = new ArrayList<>(frequency.entrySet());
-        result.sort((o1, o2) -> o2.getValue() - o1.getValue());
-        return result;
-    }
-
-    private static String[] split(String words) {
-        return words.split("\\s+");
-    }
-
-    private static String formatPrint(List<Map.Entry<String, Integer>> frequency) {
+        String[] wordArray = wordsString.split("\\s+");
+        List<Map.Entry<String, Integer>> group = group(wordArray);
+        sort(group);
         StringBuilder sb = new StringBuilder();
-        frequency.forEach(entry -> sb.append(entry.getKey()).append(" ").append(entry.getValue()).append(" "));
-        return sb.substring(0, sb.length() - 1);
+        for (Map.Entry<String, Integer> word : group) {
+            sb.append(format(word)).append(ENTER);
+        }
+        return sb.substring(0, sb.length() - ENTER.length());
     }
 
-    private static Map<String, Integer> frequency(String[] splitWords) {
-        Map<String, Integer> result = new HashMap<>();
-        for (String splitWord : splitWords) {
-            if (result.containsKey(splitWord)) {
-                result.put(splitWord, result.get(splitWord) + 1);
+    private void sort(List<Map.Entry<String, Integer>> group) {
+        group.sort((a, b) -> b.getValue() - a.getValue());
+    }
+
+    private List<Map.Entry<String, Integer>> group(String[] wordArray) {
+        Map<String, Integer> pool = new HashMap<>(wordArray.length);
+        for (String word : wordArray) {
+            if (pool.containsKey(word)) {
+                pool.put(word, pool.get(word) + 1);
             } else {
-                result.put(splitWord, 1);
+                pool.put(word, 1);
             }
         }
-        return result;
+        return new ArrayList<>(pool.entrySet());
+    }
+
+    private String format(Map.Entry<String, Integer> entry) {
+        return entry.getKey() + " " + entry.getValue();
     }
 }
